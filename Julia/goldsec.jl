@@ -1,3 +1,7 @@
+# BSD 3-Clause License
+# Copyright (c) 2022, Langyan
+# All rights reserved.
+
 """ # Optimization Result struct
     MCMC_Config([chain::Int, [init::Real, [jump, [posterior, [space::AbstractVector, [burnin::Int, rng]]]]]]) -> MCMC_Config
 * `argmin::Real` - the optimized minimizer

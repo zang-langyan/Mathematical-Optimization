@@ -1,3 +1,7 @@
+# BSD 3-Clause License
+# Copyright (c) 2022, Langyan
+# All rights reserved.
+
 goldsec = function(optfunc, interval, eps = 1e-4) {
     if (!is.function(optfunc)) stop("`optfunc` is not a function")
 

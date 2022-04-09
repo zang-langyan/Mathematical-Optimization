@@ -1,3 +1,7 @@
+# BSD 3-Clause License
+# Copyright (c) 2022, Langyan
+# All rights reserved.
+
 from math import sqrt
 
 class Optim_res:

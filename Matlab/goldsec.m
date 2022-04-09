@@ -1,4 +1,7 @@
 function [argmin, min, iter] = goldsec(optfunc, interval, eps)
+% BSD 3-Clause License
+% Copyright (c) 2022, Langyan
+% All rights reserved.
 % function to implement Golden Section optimization algorithm
 % Input:
 %       optfun: function_handle
