@@ -7,19 +7,19 @@ from math import sqrt
 class Optim_res:
 	"""Optimization Result class
 
-    Used to return optimization results object
+	Used to return optimization results object
 
-    Return an Optim_res object
+	Return an Optim_res object
 
-    Parameters
-    ----------
-    argmin : float
-        the optimized minimizer
-    min : float
-        the optimized minimum
-    iter : float
-        total iterations
-    """
+	Parameters
+	----------
+	argmin : float
+		the optimized minimizer
+	min : float
+		the optimized minimum
+	iter : float
+		total iterations
+	"""
 	def __init__(self, argmin, min, iter) -> None:
 		self.argmin = argmin
 		self.min = min
@@ -28,19 +28,19 @@ class Optim_res:
 class GoldSec:
 	"""Golden Section Algorithm class
 
-    Used to instantiate GS algorithm instances
+	Used to instantiate GS algorithm instances
 
-    Return a GoldSec object
+	Return a GoldSec object
 
-    Parameters
-    ----------
-    optfunc : function
-        self-defined function
-    interval : float
-        the interval to apply GS algorithm
-    eps : float
-        threshold to end the optimization (prescrided accuracy) (default 1e-4)
-    """
+	Parameters
+	----------
+	optfunc : function
+		self-defined function
+	interval : float
+		the interval to apply GS algorithm
+	eps : float
+		threshold to end the optimization (prescrided accuracy) (default 1e-4)
+	"""
 	def __init__(self, optfunc, interval, eps = 1e-4):
 		self.optfunc = optfunc
 		self.interval = interval
@@ -48,24 +48,24 @@ class GoldSec:
 
 	def GoldSection(self, **kwarg):
 		"""
-        function applying Golden Section Algorithm to `GoldSec` objects
+		function applying Golden Section Algorithm to `GoldSec` objects
 
-        Parameters
-        ----------
+		Parameters
+		----------
 		keywork arguments (optional)
-        opfunc : function, (update)
-            self-defined function
-        interval : float, (update)
-            the interval to apply GS algorithm
-        eps : float, (update)
-            threshold to end the optimization (prescrided accuracy) (update)
+		opfunc : function, (update)
+			self-defined function
+		interval : float, (update)
+			the interval to apply GS algorithm
+		eps : float, (update)
+			threshold to end the optimization (prescrided accuracy) (update)
 
-        Examples
-        --------
-        >>> import goldsec
-        >>> f = lambda x: x**2 + 4 * x - 4
-        >>> fConfig = goldsec.GoldSec(f, [-10,10], eps=1e-8)
-        >>> result = fConfig.GoldSection()
+		Examples
+		--------
+		>>> import goldsec
+		>>> f = lambda x: x**2 + 4 * x - 4
+		>>> fConfig = goldsec.GoldSec(f, [-10,10], eps=1e-8)
+		>>> result = fConfig.GoldSection()
 		Optimization Results
 		-----------------------------------
 		-----------------------------------
@@ -73,7 +73,7 @@ class GoldSec:
 		Minimum point: -1.9999999770027157
 		Minimum: -8.0
 		Iterations: 45
-        >>> result
+		>>> result
 		<goldsec.Optim_res object at ...>
 		>>> result.argmin
 		-1.9999999770027157
@@ -81,7 +81,7 @@ class GoldSec:
 		-8.0
 		>>> result.iter
 		45
-        """
+		"""
 		for kw, value in kwarg.items():
 			if kw == 'optfunc':
 				self.optfunc = value
