@@ -1,6 +1,12 @@
 # Mathematical Optimization
  Mathematical Optimization Algorithms implemented in various languages (including Python, Julia, Matlab, R)
 
+```diff
+- !NOTE: To View the Formulas:
+@@ a chrome plugin "MathJax Plugin for Github" is suggested @@
+@@ or one can download the markdown file to view the formulas @@
+```
+
 ## Univariate function
 
 ### Golden Section Algorithm
