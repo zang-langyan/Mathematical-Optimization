@@ -1,32 +1,173 @@
-# Mathematical Optimization
- Mathematical Optimization Algorithms implemented in various languages (including Python, Julia, Matlab, R)
+Mathematical Optimization
+---
 
-```diff
-- !NOTE: To View the Formulas:
-@@ a chrome plugin "MathJax Plugin for Github" is suggested @@
-@@ or one can download the markdown file to view the formulas @@
+*Mathematical Optimization Algorithms implemented in various languages (including Python, Julia, Matlab, R)*
+
+- [Mathematical Optimization](#mathematical-optimization)
+- [Overview](#overview)
+- [Examples](#examples)
+  - [Golden Section](#golden-section)
+    - [Python](#python)
+    - [Julia](#julia)
+    - [Matlab](#matlab)
+    - [R](#r)
+  - [Powell's Quadratic Interpolation](#powells-quadratic-interpolation)
+    - [Python](#python-1)
+    - [Julia](#julia-1)
+    - [Matlab](#matlab-1)
+    - [R](#r-1)
+
+## Overview
+- **Univariate Optimize**
+  - [Golden Section](#golden-section)
+  - [Powell's Quadratic Interpolation](#powells-quadratic-interpolation)
+- **Multivariate Optimize**
+  - To be added
+
+## Examples
+
+### Golden Section
+
+#### Python
+```python
+>>> import goldsec
+>>> f = lambda x: x**2 + 4 * x - 4
+>>> fConfig = goldsec.GoldSec(f, [-10,10], eps=1e-8)
+>>> result = fConfig.GoldSection()
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Golden Section
+Minimum point: -1.9999999770027157
+Minimum: -8.0
+Iterations: 45
+>>> result
+<util.utilities.Optim_res object at ...>
+>>> result.argmin
+-1.9999999770027157
+>>> result.min
+-8.0
+>>> result.iter
+45
 ```
 
-## Univariate function
+#### Julia
+```julia
+julia> optfunc(x) = x^2 + 4 * x - 4;
 
-### Golden Section Algorithm
+julia> _GoldenSection_(optfunc, [-10,10], 1e-8)
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Golden Section
+Minimum point: -1.9999999770027157
+Minimum: -8.0
+iterations: 45
+Optim_res(-1.9999999770027157, -8.0, 45)
 
-Golden ratio $r$: $r^2 + r -1 = 0 \Rightarrow r = \dfrac{\sqrt{5} - 1}{2} = 0.618034$
+julia> _GoldenSection_(x -> 2x^2 + 3x + 1, [-10,10], 1e-8)
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Golden Section
+Minimum point: -0.7499999977519514
+Minimum: -0.12500000000000022
+iterations: 45
+Optim_res(-0.7499999977519514, -0.12500000000000022, 45)
+```
 
-**Basic golden section algorithm**:
+#### Matlab
+```matlab
+>> [~] = goldsec(@(x) x^2 + 4*x - 4, [-10,10], 1e-4)
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Golden Section
+Minimum point: -2.00
+Minimum: -8.00
+Iterations: 26
+```
 
-> **_NOTE:_**  $L_0 = b - a$ and threshold $\varepsilon$, iteration count $i = 0$
+#### R
+```r
+> goldsec(function(x) x^2 + 4*x - 4, c(-10,10))
+```
 
-1. Set $\lambda_1 = a + r^2L_0$ and $\lambda_2 = a + rL_0$
-2. Compute $F(\lambda_1)$ and $F(\lambda_2)$, $i = i+1$
-3. $$\begin{cases} 
-F(\lambda_1) < F(\lambda_2) \Rightarrow b = \lambda_2, {\color{green}{\lambda_2 = \lambda_1}}, L_i = b-a, \lambda_1 =  a + r^2L_i \\ 
-F(\lambda_1) > F(\lambda_2) \Rightarrow a = \lambda_1, {\color{green}{\lambda_1 = \lambda_2}}, L_i = b-a, \lambda_2 =  a + rL_i
-\end{cases}$$
-4. If $L_i < \varepsilon \Rightarrow \lambda^* = \dfrac{b+a}{2}$, otherwise repeat Step 2-4
+### Powell's Quadratic Interpolation
 
-> **_Reason:_** $\color{green}{\dfrac{r^2L_0}{rL_0} = r}$
+#### Python
+```python
+>>> from interpolation import *
+>>> f = lambda x: x**2 + 100 * x - 4
+>>> fConfig = Interpolation(f,lam0 = 0, h = 0.01, H = 2)
+>>> result = fConfig.powells()
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Powell's Quadratic Interpolation
+Minimum point: -49.999999999999915
+Minimum: -2504.0000000000005
+Iterations: 26
+>>> result
+<util.utilities.Optim_res object at ...>
+>>> result.argmin
+-49.999999999999915
+>>> result.min
+-2504.0000000000005
+>>> result.iter
+26
+```
 
-### Powell's Interpolation Algorithm
+#### Julia
+```julia
+julia> optfunc(x) = x^2 + 100 * x - 4;
 
-To be added
+julia> _powells_(optfunc)
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Powell's Quadratic Interpolation
+Minimum point: -49.999999999999915
+Minimum: -2504.0000000000005
+Iterations: 26
+Optim_res(-49.999999999999915, -2504.0000000000005, 26)
+
+julia> _powells_(x -> 2x^2 + 3x + 1)
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Powell's Quadratic Interpolation
+Minimum point: -0.7499999999999996
+Minimum: -0.125
+Iterations: 2
+Optim_res(-0.7499999999999996, -0.125, 2)
+```
+
+#### Matlab
+```matlab
+>> [argmin,minimum,iter] = interpolation(@(x) 3*x^2 + 150*x - 5, 0, 0.01, 1e-4, 2)
+Optimization Results
+-----------------------------------
+-----------------------------------
+Algorithm: Powell's Quadratic Interpolation
+Minimum point: -25.00
+Minimum: -1880.00
+Iterations: 14
+
+argmin =
+
+  -25.0000
+
+minimum =
+
+       -1880
+
+iter =
+
+    14
+```
+
+#### R
+```r
+> powells(function(x) x^2 + 4*x - 4)
+```
