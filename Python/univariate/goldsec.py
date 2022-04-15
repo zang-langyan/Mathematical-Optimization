@@ -3,27 +3,7 @@
 # All rights reserved.
 
 from math import sqrt
-
-class Optim_res:
-	"""Optimization Result class
-
-	Used to return optimization results object
-
-	Return an Optim_res object
-
-	Parameters
-	----------
-	argmin : float
-		the optimized minimizer
-	min : float
-		the optimized minimum
-	iter : float
-		total iterations
-	"""
-	def __init__(self, argmin, min, iter) -> None:
-		self.argmin = argmin
-		self.min = min
-		self.iter = iter
+from util.utilities import Optim_res
 
 class GoldSec:
 	"""Golden Section Algorithm class
@@ -74,7 +54,7 @@ class GoldSec:
 		Minimum: -8.0
 		Iterations: 45
 		>>> result
-		<goldsec.Optim_res object at ...>
+		<util.utilities.Optim_res object at ...>
 		>>> result.argmin
 		-1.9999999770027157
 		>>> result.min
@@ -92,9 +72,9 @@ class GoldSec:
 			else:
 				raise Exception(f'keyword argument "{kw}" not supported')
 
-		# check if dfunc callable
+		# check if optfunc callable
 		if not callable(self.optfunc):
-			raise Exception('"optfunc" must be a function. Recreate the object with a valid density function')
+			raise Exception('"optfunc" must be a function. Recreate the object with a valid function')
 		
 		# learning rate
 		r = (sqrt(5) - 1) / 2

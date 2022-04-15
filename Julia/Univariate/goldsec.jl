@@ -2,17 +2,7 @@
 # Copyright (c) 2022, Langyan
 # All rights reserved.
 
-""" # Optimization Result struct
-    MCMC_Config([chain::Int, [init::Real, [jump, [posterior, [space::AbstractVector, [burnin::Int, rng]]]]]]) -> MCMC_Config
-* `argmin::Real` - the optimized minimizer
-* `min::Real` - the optimized minimum
-* `iter::Int` - total iterations
-"""
-struct Optim_res
-	argmin :: Real
-	min :: Real
-	iter :: Int
-end
+include("../util/utilities.jl")
 
 """ # Golden Section Algorithm
 	_GoldenSection_(optfunc, interval::AbstractVector, eps=1e-4) -> Optim_res
@@ -21,19 +11,17 @@ Optimize a function using Golden Section Algorithm
 
 # Parameters
 ## arguments
-* `optfunc`
-    - (`::Symbol`) the Symbol of self-defined function
-    - (`::var(#)`) an anonymous function 
+* `optfunc::Function` - function to be optimized
 * `interval::AbstractVector` - the interval to apply GS algorithm
 
 ## keyword arguments
 * `eps` - threshold to end the optimization (prescrided accuracy) (default 1e-4)
 
 # Examples
-```julia-repo
+```julia
 julia> optfunc(x) = x^2 + 4 * x - 4;
 
-julia> _GoldenSection_(:optfunc, [-10,10], 1e-8)
+julia> _GoldenSection_(optfunc, [-10,10], 1e-8)
 Optimization Results
 -----------------------------------
 -----------------------------------
@@ -55,25 +43,14 @@ Optim_res(-0.7499999977519514, -0.12500000000000022, 45)
 
 ```
 """
-function _GoldenSection_(optfunc, interval::AbstractVector, eps=1e-4)
-	f = nothing
-	try
-        if typeof(optfunc) == Symbol
-            f = getfield(Main,optfunc)
-        else
-            f = optfunc
-        end
-    catch
-        print("optfunc must be a self-defined function name or an anonymous function")
-    end
-	
+function _GoldenSection_(optfunc::Function, interval::AbstractVector, eps=1e-4)
 	r = (sqrt(5) - 1) / 2
 	# containers
 	a, b = interval[1], interval[2]
 	L = b - a
 	i = 0
 	λ₁, λ₂ = a + r^2 * L, a + r * L
-	F₁, F₂ = f(λ₁), f(λ₂)
+	F₁, F₂ = optfunc(λ₁), optfunc(λ₂)
 
 	# initialize result containers
 	minimum = nothing
@@ -82,9 +59,9 @@ function _GoldenSection_(optfunc, interval::AbstractVector, eps=1e-4)
 	# update containers
 	while true
 		if F₁ < F₂
-			b = λ₂; λ₂ = λ₁; F₂ = F₁; L = r * L; λ₁ = a + r^2 * L; F₁ = f(λ₁)
+			b = λ₂; λ₂ = λ₁; F₂ = F₁; L = r * L; λ₁ = a + r^2 * L; F₁ = optfunc(λ₁)
 		else
-			a = λ₁; λ₁ = λ₂; F₁ = F₂; L = r * L; λ₂ = a + r * L; F₂ = f(λ₂)
+			a = λ₁; λ₁ = λ₂; F₁ = F₂; L = r * L; λ₂ = a + r * L; F₂ = optfunc(λ₂)
 		end
 
 		# iterations count
@@ -92,7 +69,7 @@ function _GoldenSection_(optfunc, interval::AbstractVector, eps=1e-4)
 
 		if L < eps
 			λ = (b + a) / 2
-			minimum = f(λ)
+			minimum = optfunc(λ)
 			break
 		end
 	end
@@ -110,5 +87,5 @@ function _GoldenSection_(optfunc, interval::AbstractVector, eps=1e-4)
 end
 
 optfunc(x) = x^2 + 4*x - 4
-_GoldenSection_(:optfunc, [-10,10], 1e-8)
+_GoldenSection_(optfunc, [-10,10], 1e-8)
 # _GoldenSection_(x -> 2x^2 + 3x + 1, [-10,10], 1e-8)

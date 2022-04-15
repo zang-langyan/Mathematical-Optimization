@@ -4,12 +4,12 @@ function [argmin, min, iter] = goldsec(optfunc, interval, eps)
 % All rights reserved.
 % function to implement Golden Section optimization algorithm
 % Input:
-%       optfun: function_handle
+%       optfunc: function_handle
 %               function to be optimized
 %       interval:
 %               initialize the interval to apply optim routine
 %       eps:    
-%               threshold to the optim routine
+%               threshold to end the optim routine
 % Output:
 %       argmin:
 %               optimized point (minimizer)
